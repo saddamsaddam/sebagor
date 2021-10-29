@@ -1,0 +1,160 @@
+To install it, simply run:
+
+npm i react-native-picker-select
+
+requireNativeComponent "RNCPicker" was not found in the UIManager error
+You can resolve this error by running:
+
+// React Native CLI
+npm install @react-native-community/picker
+<RNPickerSelect
+                 onValueChange={(value) => console.log(value)}
+                 items={[
+                     { label: "JavaScript", value: "JavaScript" },
+                     { label: "TypeStript", value: "TypeStript" },
+                     { label: "Python", value: "Python" },
+                     { label: "Java", value: "Java" },
+                     { label: "C++", value: "C++" },
+                     { label: "C", value: "C" },
+                 ]}
+             />
+
+.................................
+import React, {useState} from 'react';
+import {Alert, Button, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
+import {red} from "react-native-reanimated/src/reanimated2/Colors";
+import RNPickerSelect from "react-native-picker-select";
+const TimeInput = () => {
+    const [name , setName]=useState();
+    const [email, setEmail] = React.useState("");
+    const [clinic,setClinic]=useState();
+    const [date,setDate]=useState(null)
+   // let date
+
+const times=(day)=>{
+    
+        if(date!=null)
+        {
+            return null;
+        }
+        else
+        {
+            return ( <View style={{ flex:1,flexDirection:"row"}}>
+                <View style={{flex:1,height:120,width:50,backgroundColor:"red"}}>
+                    <Text>Time</Text>
+                    <Text>7-8</Text>
+                    <Text>8-9</Text>
+                    <Text>9-10</Text>
+                    <Text>10-11</Text>
+                    <Text>11-12</Text>
+                </View>
+                <View style={{flex:1,height:120,width:50,backgroundColor:"green"}}>
+                    <RNPickerSelect
+                        onValueChange={(value) => console.log(value)}
+                        items={[
+                            { label: "JavaScript", value: "JavaScript" },
+                            { label: "TypeStript", value: "TypeStript" },
+                            { label: "Python", value: "Python" },
+                            { label: "Java", value: "Java" },
+                            { label: "C++", value: "C++" },
+                            { label: "C", value: "C" },
+                        ]}
+                    />
+                </View>
+            </View>)
+        }
+
+}
+    const saveTime=()=>{
+        const saves= fetch('http://02f6-103-84-133-220.ngrok.io/DoctorTime', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: name,
+                email:email,
+                clinic:clinic,
+
+
+            })
+        }).then((resp)=>{
+            //  Alert.alert(text+",,, "+number+"  "+text1)
+            console.log(resp)
+        })
+        if(saves)
+        {
+            Alert.alert("Save SuccessFully")
+
+        }
+        else
+        {
+            Alert.alert("Sorry Some Thing Wrong")
+        }
+
+    }
+    return (
+        <View>
+            <SafeAreaView>
+                <ScrollView>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={setName}
+                    value={name}
+                    placeholder="Name"
+                />
+                <TextInput
+                    style={styles.input}
+                    onChangeText={setEmail}
+                    value={email}
+                    placeholder="Email"
+                    autoCompleteType="email"
+                />
+                <TextInput
+                    style={styles.input}
+                    onChangeText={setClinic}
+                    value={clinic}
+                    placeholder="Clinic Name"
+                />
+            <Text>Saturday </Text>
+                <Button
+                    title="click"
+                    onPress={function () {
+                      const ff=times("Saturday")
+                    setDate(ff)
+                    console.log(date)
+                    }}
+                />
+
+                    {date}
+                <Text>Saturday </Text>
+                    <Button
+                title="Save me"
+                color="#841584"
+                onPress={saveTime}
+            />
+                </ScrollView>
+            </SafeAreaView>
+
+        </View>
+    );
+};
+const styles = StyleSheet.create({
+    input: {
+        height: 40,
+        margin: 12,
+        borderWidth: 1,
+    },
+    biography: {
+        height: 40,
+        margin: 12,
+        borderWidth: 1,
+
+    },
+    times:{
+       marginBottom:20
+    }
+});
+export default TimeInput;
+https://blog.logrocket.com/how-to-use-the-react-native-picker-select/#:~:text=The%20react-native-picker-select%20is%20a%20React%20Native%20picker%20component,by%20default%2C%20just%20warps%20an%20unstyled%20TextInput%20component.
